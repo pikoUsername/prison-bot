@@ -1,5 +1,5 @@
 from .util import Bot, CustomHelp
-from . import cogs
+from .cogs import setup
 
 class PrisonRpBot(Bot):
     __slots__ = "config",
@@ -11,5 +11,6 @@ class PrisonRpBot(Bot):
 
     async def start(self, *args, **kwargs):
         token = self.config['bot']['TOKEN']
-        cogs.setup(self)
+        # cogs setup
+        setup(self)
         await super().start(token, *args, **kwargs)

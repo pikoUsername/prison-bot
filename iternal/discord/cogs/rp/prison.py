@@ -7,5 +7,4 @@ class Prison(commands.Cog, name="prison | Тюрьма"):
         self.bot = bot
 
     @commands.command(help="How to Come to jail? Just get fuck up")
-    async def start(self, ctx):
-        pass
+    async def start(self, ctx): pass

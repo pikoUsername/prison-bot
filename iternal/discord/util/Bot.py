@@ -3,7 +3,6 @@ import logging
 from discord import ClientUser
 from discord.ext import commands
 
-log = logging.getLogger(__name__)
 
 class Bot(commands.AutoShardedBot):
     __slots__ = 'on_startup_cbs', 'on_shutdown_cbs', 'welcome'
@@ -36,6 +35,7 @@ class Bot(commands.AutoShardedBot):
 
     def _welcome(self):
         user = self.me
+        log = logging.getLogger(__name__)
 
         log.info(f"Welcome: {user.name if user else 'No User'}")
         log.info(f"Servers: {len(self.guilds)}")
