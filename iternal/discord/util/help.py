@@ -2,11 +2,9 @@ from discord.ext.commands import HelpCommand, BucketType, Cooldown
 from discord.ext.commands.core import Command
 from iternal.discord.util.paginator import Pages, BotHelpPageSource
 
-class HelpMenu(Pages):
-    __slots__ = ()
+__all__ = "HelpMenu", "CustomHelp"
 
-    def __init__(self, source):
-        super().__init__(source)
+class HelpMenu(Pages): pass
 
 class CustomHelp(HelpCommand):
     __slots__ = ()
@@ -30,6 +28,4 @@ class CustomHelp(HelpCommand):
             except:
                 all_commands[command.cog] = [command]
         menu = HelpMenu(BotHelpPageSource(self, all_commands))
-        await self.context.release()
         await menu.start(self.context)
-

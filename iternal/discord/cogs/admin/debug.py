@@ -9,12 +9,12 @@ class Debugger(commands.Cog, name='pantry | Кладова'):
 
     @commands.command(name="show_logs", help="shows last logs")
     @commands.is_owner()
-    async def show_logs(self, ctx: commands.Context, file: str = None):
-        if file is not None:
-            pass
+    async def show_logs(self, ctx, file: str = None):
+        if not file:
+            return
         await self.bot.send_message(ctx.channel.id, "No text")
 
     @commands.group(name="i18n")
     @commands.is_owner()
-    async def i18n(self, ctx: commands.Context):
+    async def i18n(_, ctx):
         await ctx.send("No text...")

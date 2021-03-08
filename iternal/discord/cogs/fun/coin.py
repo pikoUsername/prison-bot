@@ -1,10 +1,8 @@
 import random
 
-from discord import Embed
 from discord.ext import commands
 
 COINS = "решка", "орел"
-
 
 class Coin(commands.Cog, name="coin | Монетка"):
     __slots__ = "bot", "sys_random"
@@ -14,27 +12,16 @@ class Coin(commands.Cog, name="coin | Монетка"):
         self.sys_random = random.SystemRandom()
 
     @commands.command(name="coin")
-    async def coin(self, ctx: commands.Context, excepted):
+    async def coin(self, ctx, excepted):
         assert excepted in COINS, "Ваше ожидание, не правильные"
-
         rand_coin = self.sys_random.randint(0, 1)
         result = COINS[rand_coin]
-
         if result != excepted:
-            text = f"Посмотрим, что тут у нас, {result} Вы умрете"
-            await ctx.reply(text)
-            return
-
-        text = f"Посмотрим, что у вас выпало, {result} Поздравляю, вас не трахнут"
-        await ctx.reply(text)
+            return await ctx.reply(f"Посмотрим, что тут у нас, {result} Вы умрете")
+        await ctx.reply(f"Посмотрим, что у вас выпало, {result} Поздравляю, вас не трахнут")
 
     @commands.command(name="bottle")
-    async def bottle_flip(self, ctx: commands.Context):
-        chance = .8
-
-        if self.sys_random.random() > chance:
-            text = "Опа, тебе повеззло"
-            return await ctx.reply(text)
-
-        text = "Сядешь на бутылку"
-        await ctx.reply(text)
+    async def bottle_flip(self, ctx):
+        if self.sys_random.random() > .8:
+            return await ctx.reply("Опа, тебе повеззло")
+        await ctx.reply("Сядешь на бутылку")
