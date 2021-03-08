@@ -1,0 +1,11 @@
+aiohttp
+discord
+aiogram
+asyncpg
+loguru
+python-dotenv==0.15.0
+ujson
+flake8
+pytoml
+click
+git+https://github.com/Rapptz/discord-ext-menus

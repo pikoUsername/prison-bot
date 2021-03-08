@@ -1,0 +1,10 @@
+[bot]
+TOKEN = "NzUxNjgyNjk5MTYwMTkxMTA5.X1MpEQ.q6shSAxIU-qHUcxHoY7npcStJI0"
+prefix = "PP "
+
+[db]
+database = ""
+host = "localhost"
+port = 5000
+user = "postgres"
+password = "pokiman"
