@@ -1,3 +1,4 @@
+import datetime
 import sqlalchemy as sa
 
 from gino import Gino
@@ -12,4 +13,9 @@ class BaseModel(db.Model):
 class TimedBaseModel(BaseModel):
     __abstract__ = True
 
-    created_at = sa.Column(sa.DateTime(True))
+    created_at = sa.Column(sa.DateTime(True), default=datetime.datetime.now)
+    update_at = sa.Column(
+        sa.DateTime(True),
+        onupdate=datetime.datetime.now,
+        default=datetime.datetime.now,
+    )
