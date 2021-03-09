@@ -13,7 +13,7 @@ class Coin(commands.Cog, name="coin | Монетка"):
 
     @commands.command(name="coin")
     async def coin(self, ctx, excepted):
-        assert excepted in COINS, "Хер"
+        assert excepted in COINS, "Большой и толстый Хер"
 
         rand_coin = self.sys_random.randint(0, 1)
         result = COINS[rand_coin]
