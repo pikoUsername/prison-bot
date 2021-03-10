@@ -30,7 +30,7 @@ def setup(disable: list = None, format: str = None):
     logger.add(sys.stderr, format=format or "{time} {level} {message}", filter="my_module", level="INFO")
     logger.add(LOGS_BASE_PATH + "/file_{time}.log")
 
-    if disable is not None:
+    if disable:
         for d in disable:
             logger.disable(d)
 

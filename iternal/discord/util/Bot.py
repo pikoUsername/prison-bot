@@ -17,7 +17,7 @@ class Bot(commands.AutoShardedBot, DataMixin):
 
     __slots__ = '_on_startup_cbs', '_on_shutdown_cbs', 'welcome', 'middleware_manager'
 
-    def __init__(self, *args, welcome: bool = 1, **kwargs):
+    def __init__(self, *args, welcome: bool = 0x1, **kwargs):
         super().__init__(*args, **kwargs)
 
         self._on_startup_cbs = []
@@ -58,14 +58,14 @@ class Bot(commands.AutoShardedBot, DataMixin):
         log.info(f"Servers: {len(self.guilds)}")
 
     async def _shutdown(self):
-        if self._on_shutdown_cbs is not None:
+        if self._on_shutdown_cbs:
             for cb in self._on_shutdown_cbs:
                 await cb(self)
 
         await self.logout()
 
     async def _startup(self):
-        if self._on_shutdown_cbs is not None:
+        if self._on_shutdown_cbs:
             [await cb(self) for cb in self._on_startup_cbs]
 
     async def start(self, *args, **kwargs):

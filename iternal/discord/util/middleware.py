@@ -36,8 +36,7 @@ class BaseMiddleware:
         self.manager = None
 
     def is_configured(self) -> None:
-        if not self._configured:
-            raise TypeError("%s Not configured" % self.__class__.__name__)
+        assert self._configured, TypeError("%s Not configured" % self.__class__.__name__)
 
     def setup(self, manager: MiddlewareManager) -> None:
         self.manager = manager
