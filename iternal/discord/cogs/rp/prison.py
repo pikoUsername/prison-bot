@@ -1,5 +1,6 @@
 from discord.ext import commands
 
+
 class Prison(commands.Cog, name="prison | Тюрьма"):
     __slots__ = "bot",
 

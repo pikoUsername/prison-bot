@@ -2,7 +2,9 @@ import random
 
 from discord.ext import commands
 
+
 COINS = "решка", "орел"
+
 
 class Coin(commands.Cog, name="coin | Монетка"):
     __slots__ = "bot", "sys_random"

@@ -5,6 +5,7 @@ from contextlib import suppress
 from discord import Embed
 from discord.ext import menus
 
+
 class BotHelpPageSource(menus.ListPageSource):
     """
     Uses in help.py, for pagination

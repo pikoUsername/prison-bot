@@ -1,4 +1,5 @@
 import logging
+from _contextvars import ContextVar
 
 from discord import ClientUser, Message
 from discord.ext import commands
@@ -8,6 +9,12 @@ from .mixins import DataMixin
 
 
 class Bot(commands.AutoShardedBot, DataMixin):
+    """
+    Bot with on_startup, on_shutdown
+    and middleware
+    """
+    ctx_token = ContextVar("ctx_token")
+
     __slots__ = '_on_startup_cbs', '_on_shutdown_cbs', 'welcome', 'middleware_manager'
 
     def __init__(self, *args, welcome: bool = True, **kwargs):
@@ -65,3 +72,9 @@ class Bot(commands.AutoShardedBot, DataMixin):
         await self._startup()
         if self.welcome: self._welcome()
         await super().start(*args, **kwargs)
+
+    async def __aenter__(self):
+        await self.start(self.ctx_token)
+
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        await self._shutdown()

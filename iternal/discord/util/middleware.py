@@ -1,6 +1,11 @@
+from __future__ import annotations
+
+from typing import List
 import logging
 
 from discord import Message
+
+from .Bot import Bot
 
 log = logging.getLogger(__name__)
 
@@ -10,9 +15,9 @@ class MiddlewareManager:
 
     def __init__(self, bot: "Bot") -> None:
         self.bot = bot
-        self.applications = []
+        self.applications: List[BaseMiddleware]
 
-    def setup(self, middleware) -> "BaseMiddleware":
+    def setup(self, middleware: BaseMiddleware) -> BaseMiddleware:
         assert isinstance(middleware, BaseMiddleware)
         assert middleware.is_configured()
         self.applications.append(middleware)
@@ -20,7 +25,7 @@ class MiddlewareManager:
         log.debug("Setuping %s to middleware manager" % middleware)
         return middleware
 
-    async def trigger(self, action, message: Message) -> None:
+    async def trigger(self, action: str, message: Message) -> None:
         for app in self.applications:
             await app.trigger(action, message)
 
@@ -36,11 +41,11 @@ class BaseMiddleware:
         if not self._configured:
             raise TypeError("%s Not configured" % self.__class__.__name__)
 
-    def setup(self, manager) -> None:
+    def setup(self, manager: MiddlewareManager) -> None:
         self.manager = manager
         self._configured = True
 
-    async def trigger(self, action, message: Message) -> None:
+    async def trigger(self, action: str, message: Message) -> None:
         handler_name = f"on_{action}"
         handler = getattr(self, handler_name, None)
         if not handler:
