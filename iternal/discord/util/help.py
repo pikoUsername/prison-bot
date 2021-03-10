@@ -6,6 +6,7 @@ __all__ = "HelpMenu", "CustomHelp"
 
 class HelpMenu(Pages): pass
 
+
 class CustomHelp(HelpCommand):
     __slots__ = ()
 

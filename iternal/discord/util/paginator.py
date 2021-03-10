@@ -51,6 +51,7 @@ class BotHelpPageSource(menus.ListPageSource):
         embed.set_footer(text=f'Page {menu.current_page + 1}/{maximum}')
         return embed
 
+
 class Pages(menus.MenuPages):
     __slots__ = ()
 
