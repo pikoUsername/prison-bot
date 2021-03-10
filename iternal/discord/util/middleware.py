@@ -5,15 +5,13 @@ import logging
 
 from discord import Message
 
-from .Bot import Bot
-
 log = logging.getLogger(__name__)
 
 
 class MiddlewareManager:
     __slots__ = "bot", "applications"
 
-    def __init__(self, bot: "Bot") -> None:
+    def __init__(self, bot) -> None:
         self.bot = bot
         self.applications: List[BaseMiddleware]
 
@@ -34,7 +32,7 @@ class BaseMiddleware:
     __slots__ = "_configured", "manager"
 
     def __init__(self) -> None:
-        self._configured = False
+        self._configured = 0
         self.manager = None
 
     def is_configured(self) -> None:
@@ -43,7 +41,7 @@ class BaseMiddleware:
 
     def setup(self, manager: MiddlewareManager) -> None:
         self.manager = manager
-        self._configured = True
+        self._configured = 1
 
     async def trigger(self, action: str, message: Message) -> None:
         handler_name = f"on_{action}"

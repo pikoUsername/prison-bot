@@ -47,7 +47,7 @@ class BotHelpPageSource(menus.ListPageSource):
             commands = self.commands.get(cog)
             if commands:
                 value = self.format_commands(cog, commands)
-                embed.add_field(name=cog.qualified_name, value=value, inline=True)
+                embed.add_field(name=cog.qualified_name, value=value, inline=1)
         maximum = self.get_max_pages()
         embed.set_footer(text=f'Page {menu.current_page + 1}/{maximum}')
         return embed
@@ -57,7 +57,7 @@ class Pages(menus.MenuPages):
     __slots__ = ()
 
     def __init__(self, source):
-        super().__init__(source=source, check_embeds=True)
+        super().__init__(source=source, check_embeds=1)
 
     async def finalize(self, timed_out):
         with suppress(discord.HTTPException):
@@ -70,7 +70,7 @@ class Pages(menus.MenuPages):
         embed = Embed(title='Помощь от Батиной книги');messages = []
         for emoji, button in self.buttons.items():
             messages.append(f'{emoji}: {button.action.__doc__}')
-        embed.add_field(name='Для чего это кнопкочка?', value='\n'.join(messages), inline=False)
+        embed.add_field(name='Для чего это кнопкочка?', value='\n'.join(messages), inline=0)
         embed.set_footer(text=f'Ты на странице - {self.current_page + 1}.')
         await self.message.edit(content=None, embed=embed)
         async def go_back_to_current_page():

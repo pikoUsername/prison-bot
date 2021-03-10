@@ -7,8 +7,8 @@ class Config:
     def __init__(
         self,
         fp: Path,
-        lazy: bool = True,
-        setup_items: bool = False,
+        lazy: bool = 1,
+        setup_items: bool = 0,
         **defaults
     ) -> None:
         self.fp = fp
@@ -16,7 +16,7 @@ class Config:
         self._cache = dict()
 
         if not lazy:
-            self.load(cache=True)
+            self.load(cache=1)
 
         self.setup_items = setup_items
 
@@ -24,7 +24,7 @@ class Config:
             for k, v in self._cache.items():
                 setattr(self, k, v)
 
-    def load(self, cache=False):
+    def load(self, cache: bool = 0):
         file = open(self.fp)
         try:
             data = pytoml.load(file)
@@ -61,4 +61,4 @@ class Config:
 
     __setitem__ = __delitem__ = lambda *_: None
 
-config = Config(Path(__file__).parent / "configs" / "data.toml", lazy=False)
+config = Config(Path(__file__).parent / "configs" / "data.toml", lazy=0)

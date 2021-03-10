@@ -17,7 +17,7 @@ class Bot(commands.AutoShardedBot, DataMixin):
 
     __slots__ = '_on_startup_cbs', '_on_shutdown_cbs', 'welcome', 'middleware_manager'
 
-    def __init__(self, *args, welcome: bool = True, **kwargs):
+    def __init__(self, *args, welcome: bool = 1, **kwargs):
         super().__init__(*args, **kwargs)
 
         self._on_startup_cbs = []

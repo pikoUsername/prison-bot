@@ -19,7 +19,7 @@ class CustomHelp(HelpCommand):
 
     async def send_bot_help(self, mapping):
         bot = self.context.bot
-        entries = await self.filter_commands(bot.commands, sort=True)
+        entries = await self.filter_commands(bot.commands, sort=1)
         all_commands = {}
         for command in entries:
             if not command.cog:

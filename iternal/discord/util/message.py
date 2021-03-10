@@ -1,5 +1,5 @@
 from discord import Message
-from discord.ext.commands import Command, Context
+from discord.ext.commands import Command
 
 
 class DateMessage(Message):
