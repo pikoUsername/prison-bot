@@ -4,7 +4,7 @@ from typing import Any
 class DataMixin:
     @property
     def data(self) -> dict:
-        data = getattr(self, '_data')
+        data = getattr(self, '_data', None)
         if not data:
             data = {}
             setattr(self, '_data', data)

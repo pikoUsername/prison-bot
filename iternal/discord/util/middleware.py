@@ -13,14 +13,16 @@ class MiddlewareManager:
 
     def __init__(self, bot) -> None:
         self.bot = bot
-        self.applications: List[BaseMiddleware]
+        self.applications: List[BaseMiddleware] = []
 
     def setup(self, middleware: BaseMiddleware) -> BaseMiddleware:
         assert isinstance(middleware, BaseMiddleware)
         assert middleware.is_configured()
+
         self.applications.append(middleware)
         middleware.setup(self)
         log.debug("Setuping %s to middleware manager" % middleware)
+
         return middleware
 
     async def trigger(self, action: str, message: Message) -> None:

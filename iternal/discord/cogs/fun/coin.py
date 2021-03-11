@@ -13,7 +13,7 @@ class Coin(commands.Cog, name="coin | Монетка"):
         self.bot = bot
         self.sys_random = random.SystemRandom()
 
-    @commands.command(name="coin", help="Коин Флип")
+    @commands.command(name="coin", help="Coin Flip")
     async def coin(self, ctx, excepted):
         assert excepted in COINS, "Большой и толстый Хер"
 
@@ -24,7 +24,7 @@ class Coin(commands.Cog, name="coin | Монетка"):
 
         await ctx.reply(f"Посмотрим, что у вас выпало, {result} Поздравляю, вас не трахнут")
 
-    @commands.command(name="bottle", help="Боттле Флип")
+    @commands.command(name="bottle", help="you need at sit on bottle")
     async def bottle_flip(self, ctx):
         if self.sys_random.random() > .8:
             return await ctx.reply("Опа, тебе повеззло")

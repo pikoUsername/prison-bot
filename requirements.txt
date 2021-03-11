@@ -11,3 +11,4 @@ gino
 sqlalchemy
 click
 git+https://github.com/Rapptz/discord-ext-menus
+babel

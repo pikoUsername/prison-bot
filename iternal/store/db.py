@@ -13,11 +13,11 @@ db = Gino()
 
 
 class BaseModel(db.Model):
-    __abstract__ = 1
+    __abstract__ = 1  # type: bool
 
 
 class TimedBaseModel(BaseModel):
-    __abstract__ = 1
+    __abstract__ = 1  # type: bool
 
     created_at = db.Column(db.DateTime(1), default=datetime.datetime.now)
     update_at = db.Column(
@@ -30,6 +30,7 @@ class TimedBaseModel(BaseModel):
 async def on_startup(bot: Bot):
     dsn: str = config.create_dsn()
     pool: GinoEngine = await db.set_bind(dsn)
+    bot['pool'] = pool
     await db.gino.create_all()
 
 
@@ -39,7 +40,7 @@ async def on_shutdown(_: Any):
         await db.pop_bind().close()
 
 
-def setup(bot):
+def setup(bot: Bot):
     logger.info("Setuping Database.")
 
     bot.on_startup(on_startup)
