@@ -34,7 +34,7 @@ class BaseMiddleware:
     __slots__ = "_configured", "manager"
 
     def __init__(self) -> None:
-        self._configured = 0
+        self._configured = False
         self.manager = None
 
     def is_configured(self) -> None:
@@ -42,7 +42,7 @@ class BaseMiddleware:
 
     def setup(self, manager: MiddlewareManager) -> None:
         self.manager = manager
-        self._configured = 1
+        self._configured = True
 
     async def trigger(self, action: str, message: Message, args) -> None:
         handler_name = f"on_{action}"

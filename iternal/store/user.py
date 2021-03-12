@@ -4,6 +4,7 @@ from .db import db, TimedBaseModel
 class User(TimedBaseModel):
     __tablename__ = "users"
 
+    # discord id
     uid = db.Column(db.BigInt(), index=True)
     first_name = db.Column(db.String(125))
     last_name = db.Column(db.String(125))
