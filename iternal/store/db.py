@@ -1,6 +1,7 @@
 import datetime
 from contextlib import suppress
 
+from sqlalchemy import sql
 from gino import Gino, GinoEngine, UninitializedError
 from loguru import logger
 
@@ -13,6 +14,7 @@ db = Gino()
 
 class BaseModel(db.Model):
     __abstract__ = 1  # type: bool
+    query: sql.Select
 
     id = db.Column(db.Integer(), db.Sequence("user_id_seq"), index=True, primary_key=True)
 

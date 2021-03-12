@@ -9,6 +9,7 @@ from .mixins import DataMixin
 
 from .other import ctx_data, current_message
 from .exceptions import CancelHandler
+from .context import CtxContext
 
 
 class Bot(commands.AutoShardedBot, DataMixin):
@@ -40,13 +41,16 @@ class Bot(commands.AutoShardedBot, DataMixin):
 
         # before
         try:
+            # if pre_process_message chanes something
+            # data changes too, dict is mutable, yay
             await self.middleware.trigger("pre_process_message", message, data)
         except CancelHandler:
-            pass
+            return
 
         try:
             ctx_token = current_message.set(message)
             try:
+                # here processes message
                 await self.middleware.trigger("process_message", message, data)
                 await super().process_commands(message)
             finally:
@@ -56,6 +60,11 @@ class Bot(commands.AutoShardedBot, DataMixin):
         finally:
             # after
             await self.middleware.trigger("post_process_message", message, data)
+
+    async def get_context(self, message: Message, *, cls=CtxContext):
+        ctx: CtxContext = await super().get_context(message, cls=CtxContext)
+        ctx._data = ctx_data.get(None)
+        return ctx
 
     def on_startup(self, callback):
         append = self._on_startup_cbs.append

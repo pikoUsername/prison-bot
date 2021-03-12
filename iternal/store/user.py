@@ -9,4 +9,3 @@ class User(TimedBaseModel):
     last_name = db.Column(db.String(125))
     money = db.Column(db.Integer())
     xp = db.Column(db.Integer())
-
