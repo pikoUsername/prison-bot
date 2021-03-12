@@ -1,6 +1,7 @@
 # https://github.com/aiogram/aiogram/blob/dev-2.x/aiogram/contrib/middlewares/i18n.py
 import gettext
 import os
+import typing
 from contextvars import ContextVar
 from typing import Any, Dict, Tuple
 
@@ -12,9 +13,8 @@ from ..middleware import BaseMiddleware
 class I18nMiddleware(BaseMiddleware):
     """
     I18n middleware based on gettext util
-    >>> dp = Dispatcher(bot)
     >>> i18n = I18nMiddleware(DOMAIN, LOCALES_DIR)
-    >>> dp.middleware.setup(i18n)
+    >>> bot.middleware.setup(i18n)
     and then
     >>> _ = i18n.gettext
     or
@@ -23,7 +23,7 @@ class I18nMiddleware(BaseMiddleware):
 
     ctx_locale = ContextVar('ctx_user_locale', default=None)
 
-    def __init__(self, domain, path=None, default='en'):
+    def __init__(self, domain, path=None, default='en') -> None:
         """
         :param domain: domain
         :param path: path where located all *.mo files
@@ -63,7 +63,7 @@ class I18nMiddleware(BaseMiddleware):
 
         return translations
 
-    def reload(self):
+    def reload(self) -> None:
         """
         Hot reload locales
         """
@@ -123,7 +123,7 @@ class I18nMiddleware(BaseMiddleware):
         """
         raise NotImplementedError
 
-    async def trigger(self, action, args):
+    async def trigger(self, action, *args) -> typing.Optional[bool]:
         """
         Event trigger
         :param action: event name

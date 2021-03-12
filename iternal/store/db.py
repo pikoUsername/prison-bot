@@ -1,6 +1,5 @@
 import datetime
 from contextlib import suppress
-from typing import Any
 
 from gino import Gino, GinoEngine, UninitializedError
 from loguru import logger
@@ -14,6 +13,8 @@ db = Gino()
 
 class BaseModel(db.Model):
     __abstract__ = 1  # type: bool
+
+    id = db.Column(db.Integer(), db.Sequence("user_id_seq"), index=True, primary_key=True)
 
 
 class TimedBaseModel(BaseModel):
@@ -34,7 +35,7 @@ async def on_startup(bot: Bot):
     await db.gino.create_all()
 
 
-async def on_shutdown(_: Any):
+async def on_shutdown(_: Bot):
     with suppress(UninitializedError):
         logger.info("Closing Postgres Connection")
         await db.pop_bind().close()

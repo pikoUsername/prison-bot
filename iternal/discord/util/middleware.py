@@ -25,9 +25,9 @@ class MiddlewareManager:
 
         return middleware
 
-    async def trigger(self, action: str, message: Message) -> None:
+    async def trigger(self, action: str, message: Message, args) -> None:
         for app in self.applications:
-            await app.trigger(action, message)
+            await app.trigger(action, message, args)
 
 
 class BaseMiddleware:
@@ -44,10 +44,10 @@ class BaseMiddleware:
         self.manager = manager
         self._configured = 1
 
-    async def trigger(self, action: str, message: Message) -> None:
+    async def trigger(self, action: str, message: Message, args) -> None:
         handler_name = f"on_{action}"
         handler = getattr(self, handler_name, None)
         if not handler:
             return None
-        await handler(message)
+        await handler(message, *args)
 

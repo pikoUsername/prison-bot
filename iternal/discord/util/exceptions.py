@@ -1,0 +1,1 @@
+class CancelHandler(Exception): pass

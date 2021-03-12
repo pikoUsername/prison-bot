@@ -7,6 +7,9 @@ from discord.ext import commands
 from .middleware import MiddlewareManager
 from .mixins import DataMixin
 
+from .other import ctx_data, current_message
+from .exceptions import CancelHandler
+
 
 class Bot(commands.AutoShardedBot, DataMixin):
     """
@@ -15,7 +18,7 @@ class Bot(commands.AutoShardedBot, DataMixin):
     """
     ctx_token = ContextVar("ctx_token")
 
-    __slots__ = '_on_startup_cbs', '_on_shutdown_cbs', 'welcome', 'middleware_manager'
+    __slots__ = '_on_startup_cbs', '_on_shutdown_cbs', 'welcome', 'middleware'
 
     def __init__(self, *args, welcome: bool = 0x1, **kwargs):
         super().__init__(*args, **kwargs)
@@ -23,7 +26,7 @@ class Bot(commands.AutoShardedBot, DataMixin):
         self._on_startup_cbs = []
         self._on_shutdown_cbs = []
         self.welcome = welcome
-        self.middleware_manager = MiddlewareManager(self)
+        self.middleware = MiddlewareManager(self)
 
     @property
     def me(self) -> ClientUser:
@@ -32,9 +35,27 @@ class Bot(commands.AutoShardedBot, DataMixin):
         return getattr(self, '_me')
 
     async def process_commands(self, message: Message):
-        await self.middleware_manager.trigger("pre_process_message", message)
-        await super().process_commands(message)
-        await self.middleware_manager.trigger("post_process_message", message)
+        data = {}
+        ctx_data.set(data)
+
+        # before
+        try:
+            await self.middleware.trigger("pre_process_message", message, data)
+        except CancelHandler:
+            pass
+
+        try:
+            ctx_token = current_message.set(message)
+            try:
+                await self.middleware.trigger("process_message", message, data)
+                await super().process_commands(message)
+            finally:
+                current_message.reset(ctx_token)
+        except CancelHandler:
+            pass
+        finally:
+            # after
+            await self.middleware.trigger("post_process_message", message, data)
 
     def on_startup(self, callback):
         append = self._on_startup_cbs.append
@@ -71,6 +92,7 @@ class Bot(commands.AutoShardedBot, DataMixin):
     async def start(self, *args, **kwargs):
         await self._startup()
         if self.welcome: self._welcome()
+        self.ctx_token.set(args[0])
         await super().start(*args, **kwargs)
 
     async def __aenter__(self):

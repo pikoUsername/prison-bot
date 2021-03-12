@@ -14,5 +14,4 @@ class DateMessage(Message):
         del self.ctx_data[key]
 
 
-class CustomCommand(Command):
-    pass
+class CustomCommand(Command): pass
