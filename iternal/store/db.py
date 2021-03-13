@@ -18,6 +18,12 @@ class BaseModel(db.Model):
 
     id = db.Column(db.Integer(), db.Sequence("user_id_seq"), index=True, primary_key=True)
 
+    @property
+    def bot(self):
+        b = Bot.get_current()
+        assert b is not None, "No bot from context, make set_current(bot) for this."
+        return b
+
 
 class TimedBaseModel(BaseModel):
     __abstract__ = 1  # type: bool

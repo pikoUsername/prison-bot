@@ -12,7 +12,6 @@ class Events(commands.Cog, name="events | Евенты"):
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
-        # for optimization
         args_errors = (
             errors.BadUnionArgument,
             errors.MissingRequiredArgument,

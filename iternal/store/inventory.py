@@ -7,7 +7,7 @@ class Inventory(BaseModel):
     __tablename__ = "inventories"
 
     user_id = db.ForeignKey('users', ondelete="CASCADE", onupdate="NO ACTION")
-    limit = db.Column(db.Integer())
+    limit = db.Column(db.Integer(), default=20)
 
 
 class Item(TimedBaseModel):

@@ -5,14 +5,14 @@ from discord import ClientUser, Message
 from discord.ext import commands
 
 from .middleware import MiddlewareManager
-from .mixins import DataMixin
+from iternal.utils.mixins import DataMixin, ContextMixin
 
 from .other import ctx_data, current_message
 from .exceptions import CancelHandler
 from .context import CtxContext
 
 
-class Bot(commands.AutoShardedBot, DataMixin):
+class Bot(commands.AutoShardedBot, DataMixin, ContextMixin):
     """
     Bot with on_startup, on_shutdown
     and middleware

@@ -1,6 +1,6 @@
 from discord.ext.commands import Context
 
-from .mixins import DataMixin
+from iternal.utils.mixins import DataMixin
 
 
 class CtxContext(Context, DataMixin):
