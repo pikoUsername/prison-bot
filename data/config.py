@@ -7,8 +7,8 @@ class Config:
     def __init__(
         self,
         fp: Path,
-        lazy: bool = 0x1,
-        setup_items: bool = 0x0,
+        lazy: bool = True,
+        setup_items: bool = False,
         **defaults
     ) -> None:
         self.fp = fp
@@ -16,7 +16,7 @@ class Config:
         self._cache = dict()
 
         if not lazy:
-            self.load(cache=0x1)
+            self.load(cache=True)
 
         self.setup_items = setup_items
 
@@ -61,4 +61,4 @@ class Config:
 
     __setitem__ = __delitem__ = lambda *_: None
 
-config = Config(Path(__file__).parent / "configs" / "data.toml", lazy=0x0)
+config = Config(Path(__file__).parent / "configs" / "data.toml", lazy=False)
