@@ -11,7 +11,8 @@ class Acl(BaseMiddleware):
 
         _user = await User.get_user(user_id)
         if not _user:
-            pass
+            await User.create_from_discord(message.author, message.guild.id)
+            _user = await User.get_user(user_id)
 
         data['user'] = _user
 

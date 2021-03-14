@@ -2,6 +2,8 @@ import discord
 
 from .db import db, TimedBaseModel
 from iternal.discord.loader import bot
+from pkg.middlewares.utils.other import current_message
+
 
 __all__ = "User",
 
@@ -22,7 +24,8 @@ class User(TimedBaseModel):
         sql = "SELECT u.* FROM users AS u WHERE uid = $1;"
 
         if use_cache:
-            user = await bot.storage.get_data(guild=None, user=uid)
+            mes = current_message.get()
+            user = await bot.storage.get_data(guild=mes.guild.id, user=uid)
 
         else:
             async with db.acquire() as conn:
