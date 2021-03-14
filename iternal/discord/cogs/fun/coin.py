@@ -1,9 +1,7 @@
 import random
 
 from discord.ext import commands
-
-
-COINS = "решка", "орел"
+from .utils.consts import COINS
 
 
 class Coin(commands.Cog, name="coin | Монетка"):

@@ -25,12 +25,16 @@ class Events(commands.Cog, name="events | Евенты"):
             errors.CommandOnCooldown,
             errors.ChannelNotFound
         )
+
         if isinstance(error, ignore_errors):
             pass
         elif isinstance(error, args_errors):
             await ctx.send("``Argument Error``, Проебался, что то пропустил в аргментах")
         elif isinstance(error, commands.NotOwner):
-            await ctx.reply(embed=Embed(title="Доступ запрещен", description=f"{ctx.command}, Только Для Оффицеров"))
+            await ctx.reply(embed=Embed(
+                title="Доступ запрещен",
+                description=f"{ctx.command}, Только Для Оффицеров"
+            ))
         elif isinstance(error, commands.CommandInvokeError):
             if isinstance(error.original, AssertionError):
                 await ctx.reply(error)
