@@ -1,5 +1,4 @@
 from discord import Message
-from discord.ext.commands import Command
 
 
 class DateMessage(Message):
@@ -12,6 +11,3 @@ class DateMessage(Message):
 
     def __delitem__(self, key):
         del self.ctx_data[key]
-
-
-class CustomCommand(Command): pass

@@ -50,4 +50,3 @@ class BaseMiddleware:
         if not handler:
             return None
         await handler(message, *args)
-

@@ -2,10 +2,16 @@ from discord import Message
 
 from ..util.middleware import BaseMiddleware
 
+from iternal.store.user import User
+
 
 class Acl(BaseMiddleware):
     async def setup_chat(self, message: Message, data: dict) -> None:
         user_id = message.author.id
+
+        _user = await User.get_user(user_id)
+        if not _user:
+            pass
 
         data['user'] = _user
 

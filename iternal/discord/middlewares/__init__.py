@@ -1,4 +1,4 @@
-from ..util.Bot import Bot
+from pkg.middlewares.bot import Bot
 
 
 def setup(bot: Bot):

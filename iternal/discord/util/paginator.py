@@ -43,7 +43,7 @@ class BotHelpPageSource(menus.ListPageSource):
         prefix = menu.ctx.prefix
         description = f'"{prefix}help <command>" ну что же, документация действий вот здесь, если захочешь найдешь.\n'\
                       f'Поиспользуй это "{prefix}help category" для того что бы не запутатся.\n'
-        embed = Embed(title='Категории',description=description,colour=discord.Colour.blurple())
+        embed = Embed(title='Категории', description=description, colour=discord.Colour.blurple())
         for cog in cogs:
             commands = self.commands.get(cog)
             if commands:
