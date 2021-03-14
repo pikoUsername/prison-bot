@@ -1,14 +1,16 @@
-from .util import Bot, CustomHelp
+from pkg.middlewares import MiddlewareBot
+
+from .util import CustomHelp
 from . import cogs
 
 from ..store import db
 
 
-class PrisonRpBot(Bot):
+class PrisonRpBot(MiddlewareBot):
     __slots__ = "config",
 
     def __init__(self, config, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super(PrisonRpBot, self).__init__(*args, **kwargs)
         self.config = config
         self.help_command = CustomHelp()
 

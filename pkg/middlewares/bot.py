@@ -5,11 +5,10 @@ from discord import ClientUser, Message
 from discord.ext import commands
 
 from .middleware import MiddlewareManager
-from iternal.utils.mixins import DataMixin, ContextMixin
-
-from .other import ctx_data, current_message
+from .utils.mixins import DataMixin, ContextMixin
 from .exceptions import CancelHandler
-from .context import CtxContext
+from .utils.context import DataContext
+from .utils.other import ctx_data, current_message
 
 
 class Bot(commands.AutoShardedBot, DataMixin, ContextMixin):
@@ -17,17 +16,39 @@ class Bot(commands.AutoShardedBot, DataMixin, ContextMixin):
     Bot with on_startup, on_shutdown
     and middleware
     """
+    # needs for ctx_token
+    # if you wont get token from config
     ctx_token = ContextVar("ctx_token")
 
-    __slots__ = '_on_startup_cbs', '_on_shutdown_cbs', 'welcome', 'middleware'
+    __slots__ = (
+        '_on_startup_cbs',
+        '_on_shutdown_cbs',
+        'welcome',
+        'middleware',
+        'storage',
+    )
 
-    def __init__(self, *args, welcome: bool = 0x1, **kwargs):
+    def __init__(
+        self,
+        *args,
+        storage=None,
+        welcome=True,
+        **kwargs,
+    ):
         super().__init__(*args, **kwargs)
+
+        # Optional storage, see userstorages/
+        self.storage = storage
 
         self._on_startup_cbs = []
         self._on_shutdown_cbs = []
+
         self.welcome = welcome
+
         self.middleware = MiddlewareManager(self)
+
+        # for get_current
+        self.set_current(self)
 
     @property
     def me(self) -> ClientUser:
@@ -61,8 +82,8 @@ class Bot(commands.AutoShardedBot, DataMixin, ContextMixin):
             # after
             await self.middleware.trigger("post_process_message", message, data)
 
-    async def get_context(self, message: Message, *, cls=CtxContext):
-        ctx: CtxContext = await super().get_context(message, cls=CtxContext)
+    async def get_context(self, message: Message, *, cls=DataContext):
+        ctx = await super().get_context(message, cls=DataContext)
         ctx._data = ctx_data.get(None)
         return ctx
 
@@ -87,25 +108,42 @@ class Bot(commands.AutoShardedBot, DataMixin, ContextMixin):
         log.info(f"Welcome: {user.name if user else 'No User'}")
         log.info(f"Servers: {len(self.guilds)}")
 
-    async def _shutdown(self):
+    async def _shutdown(self) -> None:
         if self._on_shutdown_cbs:
             for cb in self._on_shutdown_cbs:
                 await cb(self)
 
         await self.logout()
 
-    async def _startup(self):
+    async def _startup(self) -> None:
         if self._on_shutdown_cbs:
             [await cb(self) for cb in self._on_startup_cbs]
 
-    async def start(self, *args, **kwargs):
+    async def start(self, *args, **kwargs) -> None:
+        """
+        First starts startup callbacks
+
+        :param args:
+        :param kwargs:
+        :return:
+        """
         await self._startup()
-        if self.welcome: self._welcome()
+        if self.welcome:
+            self._welcome()
         self.ctx_token.set(args[0])
         await super().start(*args, **kwargs)
 
+    async def on_disconnect(self) -> None:
+        """
+        shutdown
+
+        :return:
+        """
+        await self._shutdown()
+
     async def __aenter__(self):
         await self.start(self.ctx_token)
+        return self
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         await self._shutdown()

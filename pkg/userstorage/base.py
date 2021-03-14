@@ -10,10 +10,16 @@ class BaseStorage:
     async def close(self):
         raise NotImplementedError
 
-    async def set_data(self, **kwargs):
+    async def set_data(self, *,
+                       guild: typing.Union[str, int, None] = None,
+                       user: typing.Union[str, int, None] = None,
+                       data: typing.Dict = None):
         raise NotImplementedError
 
-    async def get_data(self, key, no_error=True):
+    async def get_data(self, *,
+                       guild: typing.Union[str, int, None] = None,
+                       user: typing.Union[str, int, None] = None,
+                       default: typing.Optional[str] = None) -> typing.Dict:
         raise NotImplementedError
 
     async def update_data(self, **kwargs):
@@ -35,7 +41,7 @@ class BaseStorage:
         if not guild and not user:
             raise ValueError('`user` or `chat` parameter is required but no one is provided!')
 
-        if not user and guild :
+        if not user and guild:
             user = guild
         elif user and not guild:
             guild = user
