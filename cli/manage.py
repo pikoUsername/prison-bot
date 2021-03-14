@@ -13,18 +13,13 @@ def cli():
 @cli.command()
 @click.option('--prefix', '-p', default=None, type=str, help="What are you looking for?")
 def discord(prefix: str):
-    from data import config
-    from iternal.discord.bot import PrisonRpBot
-
-    prefix = prefix if prefix else config['bot']['prefix']
-    b = PrisonRpBot(config, command_prefix=prefix)
+    from iternal.discord.loader import bot
 
     def starter(bote):
         loop = asyncio.get_event_loop()
-        try:
-            loop.run_until_complete(bote.start())
-        except (KeyboardInterrupt, SystemExit):
-            pass
-        finally:
-            loop.run_until_complete(bote._shutdown())
-    starter(b)
+        loop.run_until_complete(bote.start())
+
+    if prefix is not None:
+        bot.command_prefix = prefix
+
+    starter(bot)
