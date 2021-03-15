@@ -13,7 +13,7 @@ class Inventory(BaseModel):
 class Item(TimedBaseModel):
     __tablename__ = "items"
 
-    inventory_id = db.Column(db.Integer, db.ForeignKey("inventories.id"))
+    inventory_id = db.Column(db.Integer, db.ForeignKey("inventories.id"), null=False)
     equipped = db.Column(db.Boolean(), server_default=sql.false())
     item_parent = db.ForeignKey("globalitems", ondelete="CASCADE", onupdate="NO ACTION")
 
