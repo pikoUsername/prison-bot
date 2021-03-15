@@ -1,8 +1,7 @@
 from pkg.middlewares import MiddlewareBot
 
 from .util import CustomHelp
-from . import cogs
-
+from . import cogs, middlewares
 from ..store import db
 
 
@@ -19,5 +18,6 @@ class PrisonRpBot(MiddlewareBot):
 
         db.setup(self)
         cogs.setup(self)
+        middlewares.setup(self)
 
         await super().start(token, *args, **kwargs)

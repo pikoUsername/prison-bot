@@ -1,5 +1,7 @@
 from discord.ext import commands
 
+from pkg.middlewares.utils import ctx_data
+
 
 class Prison(commands.Cog, name="prison | Тюрьма"):
     """Your home | Твой милый дом"""
@@ -14,4 +16,9 @@ class Prison(commands.Cog, name="prison | Тюрьма"):
         "How to Come to jail? Just get fuck up"
           Said You...
         """
-        pass
+        text = (
+            ""
+            "Теперь ты в говне, и тебе уже не так смешно",
+            "Твоя задачя сбежать с этой тюрьмы"
+        )
+        await ctx.reply()

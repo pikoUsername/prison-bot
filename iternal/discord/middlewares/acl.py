@@ -1,6 +1,5 @@
 from discord import Message
-
-from ..util.middleware import BaseMiddleware
+from pkg.middlewares.middleware import BaseMiddleware
 
 from iternal.store.user import User
 
