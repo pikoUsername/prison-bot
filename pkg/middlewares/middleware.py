@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import typing
 from typing import List
 import logging
 
@@ -17,7 +18,8 @@ class MiddlewareManager:
 
     def setup(self, middleware: BaseMiddleware) -> BaseMiddleware:
         assert isinstance(middleware, BaseMiddleware)
-        assert middleware.is_configured()
+        if middleware.is_configured():
+            raise ValueError('That middleware is already used!')
 
         self.applications.append(middleware)
         middleware.setup(self)
@@ -25,9 +27,9 @@ class MiddlewareManager:
 
         return middleware
 
-    async def trigger(self, action: str, message: Message, args) -> None:
+    async def trigger(self, action: str, args: typing.Iterable) -> None:
         for app in self.applications:
-            await app.trigger(action, message, args)
+            await app.trigger(action, args)
 
 
 class BaseMiddleware:
@@ -37,16 +39,16 @@ class BaseMiddleware:
         self._configured = False
         self.manager = None
 
-    def is_configured(self) -> None:
-        assert self._configured, TypeError("%s Not configured" % self.__class__.__name__)
+    def is_configured(self) -> bool:
+        return self._configured
 
     def setup(self, manager: MiddlewareManager) -> None:
         self.manager = manager
         self._configured = True
 
-    async def trigger(self, action: str, message: Message, args) -> None:
+    async def trigger(self, action: str, args) -> None:
         handler_name = f"on_{action}"
         handler = getattr(self, handler_name, None)
         if not handler:
             return None
-        await handler(message, *args)
+        await handler(*args)

@@ -13,7 +13,7 @@ class User(TimedBaseModel):
     __tablename__ = "users"
 
     # discord id
-    uid = db.Column(db.BigInt(), index=True, null=False)
+    uid = db.Column(db.BigInteger(), index=True)
     first_name = db.Column(db.String(125))
     last_name = db.Column(db.String(125))
     money = db.Column(db.Integer(), default=0)
@@ -24,9 +24,9 @@ class User(TimedBaseModel):
     respect = db.Column(db.Integer(), default=10)
 
     @staticmethod
-    async def get_user(uid: int, use_cache: bool = True):
+    async def get_user(uid: int, use_cache: bool = False):
         if use_cache:
-            mes = current_message.get()
+            mes = current_message.get(None)
             user = await bot.storage.get_data(guild=mes.guild.id, user=uid)
         else:
             sql = "SELECT u.* FROM users AS u WHERE uid = $1;"
@@ -52,7 +52,7 @@ class User(TimedBaseModel):
             first_name=user.display_name,
         )
         await new_user.create()
-        await User.bot().storage.set_data(
+        await bot.storage.set_data(
             user=new_user.uid,
             guild=guild_id,
             data={"cache": new_user},

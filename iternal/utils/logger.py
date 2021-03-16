@@ -33,5 +33,6 @@ def setup(disable: list = None, format: str = None):
     if disable:
         for d in disable:
             logger.disable(d)
+    logger.disable("sqlalchemy")
 
     logging.basicConfig(handlers=[InterceptHandler()], level=logging.INFO)

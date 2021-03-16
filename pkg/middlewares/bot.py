@@ -64,7 +64,7 @@ class Bot(commands.AutoShardedBot, DataMixin, ContextMixin):
         try:
             # if pre_process_message chanes something
             # data changes too, dict is mutable, yay
-            await self.middleware.trigger("pre_process_message", message, data)
+            await self.middleware.trigger("pre_process_message", (message, data))
         except CancelHandler:
             return
 
@@ -72,7 +72,7 @@ class Bot(commands.AutoShardedBot, DataMixin, ContextMixin):
             ctx_token = current_message.set(message)
             try:
                 # here processes message
-                await self.middleware.trigger("process_message", message, data)
+                await self.middleware.trigger("process_message", (message, data))
                 await super().process_commands(message)
             finally:
                 current_message.reset(ctx_token)
@@ -80,7 +80,7 @@ class Bot(commands.AutoShardedBot, DataMixin, ContextMixin):
             pass
         finally:
             # after
-            await self.middleware.trigger("post_process_message", message, data)
+            await self.middleware.trigger("post_process_message", (message, data))
 
     async def get_context(self, message: Message, *, cls=DataContext):
         ctx = await super().get_context(message, cls=DataContext)
@@ -132,6 +132,13 @@ class Bot(commands.AutoShardedBot, DataMixin, ContextMixin):
             self._welcome()
         self.ctx_token.set(args[0])
         await super().start(*args, **kwargs)
+
+    async def on_message(self, message: Message):
+        try:
+            await self.process_commands(message)
+        except Exception as exc:
+            self.dispatch("on_command_error", exc)
+            raise
 
     async def on_disconnect(self) -> None:
         """
