@@ -15,7 +15,7 @@ def cli():
 def discord(prefix: str):
     from iternal.discord.loader import bot
 
-    def starter(bote):
+    def starter(bote: type(bot)):
         loop = asyncio.get_event_loop()
         loop.run_until_complete(bote.start())
 
