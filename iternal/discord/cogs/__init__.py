@@ -5,6 +5,7 @@ from .other import Events
 from .fun import Coin
 from .admin import Debugger
 
+__all__ = "setup"
 
 def setup(bot):
     logger.info("setuping Cogs")

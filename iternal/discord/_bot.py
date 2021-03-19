@@ -1,8 +1,6 @@
 from pkg.middlewares import MiddlewareBot
 
 from .util import CustomHelp
-from . import cogs, middlewares
-from ..store import db
 
 
 class PrisonRpBot(MiddlewareBot):
@@ -31,6 +29,9 @@ class PrisonRpBot(MiddlewareBot):
         cogs setup, and middlewares,
         middleares list: i18n and acl
         """
+        from . import cogs, middlewares
+        from ..store import db
+
         token = self.config['bot']['TOKEN']
 
         db.setup(self)
