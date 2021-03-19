@@ -18,7 +18,7 @@ class Prison(commands.Cog, name="prison | Тюрьма"):
     @commands.command()
     async def start(self, ctx):
         _("""
-        "How to Come to jail? Just get fuck up"
+        "Не попаду я в тюрягу"
           Said You...
         """)
         from .utils.consts import REASONS_RU

@@ -1,7 +1,7 @@
 from discord.ext import commands
 
 
-class Debugger(commands.Cog, name='pantry | Кладова'):
+class Debugger(commands.Cog, name='pantry | Кладовка'):
     __slots__ = "bot",
 
     def __init__(self, bot):

@@ -27,7 +27,7 @@ class Events(commands.Cog, name="events | Евенты"):
         )
 
         if isinstance(error, ignore_errors):
-            pass
+            return
         elif isinstance(error, args_errors):
             await ctx.send("``Argument Error``, Проебался, что то пропустил в аргментах")
         elif isinstance(error, commands.NotOwner):

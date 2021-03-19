@@ -18,7 +18,7 @@ class Coin(commands.Cog, name="coin | Монетка"):
         rand_coin = self.sys_random.randint(0x0, 0x1)
         result = COINS[rand_coin]
         if result != excepted:
-            return await ctx.reply(f"Посмотрим, что тут у нас, {result} Вы умрете")
+            return await ctx.reply(f"Посмотрим, что тут у нас, {result}, Ты сдохнешь")
 
         await ctx.reply(f"Посмотрим, что у вас выпало, {result} Поздравляю, вас не трахнут")
 
