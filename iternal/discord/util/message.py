@@ -2,6 +2,11 @@ from discord import Message
 
 
 class DateMessage(Message):
+    """
+    Stores Message data
+
+    ctx_data uses in handlers/commands for get data
+    """
     ctx_data = dict()
 
     __getitem__ = lambda s, k: s.ctx_data[k]
