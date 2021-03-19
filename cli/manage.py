@@ -17,7 +17,12 @@ def discord(prefix: str):
 
     def starter(bote: type(bot)):
         loop = asyncio.get_event_loop()
-        loop.run_until_complete(bote.start())
+        try:
+            loop.run_until_complete(bote.start())
+        except KeyboardInterrupt:
+            pass
+        finally:
+            loop.run_until_complete(bote.shutdown())
 
     if prefix is not None:
         bot.command_prefix = prefix
