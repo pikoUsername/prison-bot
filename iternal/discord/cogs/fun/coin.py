@@ -1,3 +1,5 @@
+import random
+
 from discord.ext import commands
 from .utils.consts import COINS
 
@@ -6,8 +8,6 @@ class Coin(commands.Cog, name="coin | Монетка"):
     __slots__ = "bot", "sys_random"
 
     def __init__(self, bot):
-        import random
-
         self.bot = bot
         self.sys_random = random.SystemRandom()
 

@@ -8,7 +8,7 @@ class Events(commands.Cog, name="events | Евенты"):
 
     def __init__(self, bot):
         self.bot = bot
-        self.command_activated = 0x0
+        self.command_activated = 0
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
@@ -52,4 +52,4 @@ class Events(commands.Cog, name="events | Евенты"):
     @commands.Cog.listener()
     async def on_command_complete(self, *_):
         # and too this
-        self.command_activated += 0x1
+        self.command_activated += 1
