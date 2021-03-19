@@ -2,6 +2,8 @@ from discord.ext.commands import errors
 from discord import Embed
 from discord.ext import commands
 
+from iternal.discord.loader import _
+
 
 class Events(commands.Cog, name="events | Евенты"):
     __slots__ = "bot", "command_activated"
@@ -9,6 +11,13 @@ class Events(commands.Cog, name="events | Евенты"):
     def __init__(self, bot):
         self.bot = bot
         self.command_activated = 0
+
+    async def send_to_owner(
+        self,
+        *args, **kwargs
+    ):
+        owner = await self.bot.fetch_user(self.bot.owner_id)
+        return await owner.send(*args, **kwargs)
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
@@ -29,25 +38,24 @@ class Events(commands.Cog, name="events | Евенты"):
         if isinstance(error, ignore_errors):
             return
         elif isinstance(error, args_errors):
-            await ctx.send("``Argument Error``, Проебался, что то пропустил в аргментах")
+            await ctx.send(_("``Argument Error``, Проебался, что то пропустил в аргментах"))
         elif isinstance(error, commands.NotOwner):
             await ctx.reply(embed=Embed(
-                title="Доступ запрещен",
-                description=f"{ctx.command}, Только Для Оффицеров"
+                title=_("Доступ запрещен"),
+                description=_("{command}, Только Для Оффицеров"
+                              ).format(command=ctx.command)
             ))
         elif isinstance(error, commands.CommandInvokeError):
             if isinstance(error.original, AssertionError):
                 await ctx.reply(error)
             else:
-                await ctx.reply(f"Ну что же, у нас проблемки. {error}")
-                owner = await self.bot.fetch_user(self.bot.owner_id)
-                text = "У нас проблема, в тюрьме: {g_id}, и эта проблема: {error}".format(g_id=ctx.guild.id, error=error)
-                await owner.send(text)
+                await ctx.reply(_("Ну что же, у нас проблемки. {error}").format(error=error))
         else:
             await ctx.reply(f"Как ты это Сделал это? {error}\n")
-            owner = await self.bot.fetch_user(self.bot.owner_id)
-            text = "У нас проблема, в тюрьме: {g_id}, и эта проблема: {error}".format(g_id=ctx.guild.id, error=error)
-            await owner.send(text)
+            text = _(
+                "У нас проблема, в тюрьме: {g_name}, и эта проблема: {error}"
+            ).format(g_name=ctx.guild.name, error=error)
+            await self.send_to_owner(text)
 
     @commands.Cog.listener()
     async def on_command_complete(self, *_):

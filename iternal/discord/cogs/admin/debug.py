@@ -16,5 +16,5 @@ class Debugger(commands.Cog, name='pantry | Кладовка'):
 
     @commands.group(name="i18n")
     @commands.is_owner()
-    async def i18n(_, ctx):
+    async def bot_change_guild_language(_, ctx):
         await ctx.send("No text...")

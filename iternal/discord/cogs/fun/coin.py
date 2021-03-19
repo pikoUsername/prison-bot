@@ -3,6 +3,8 @@ import random
 from discord.ext import commands
 from .utils.consts import COINS
 
+from iternal.discord.loader import _
+
 
 class Coin(commands.Cog, name="coin | Монетка"):
     __slots__ = "bot", "sys_random"
@@ -13,18 +15,22 @@ class Coin(commands.Cog, name="coin | Монетка"):
 
     @commands.command(name="coin", help="Coin Flip")
     async def coin(self, ctx, excepted):
-        assert excepted in COINS, "Большой и толстый Хер"
+        assert excepted in COINS, _("Большой и толстый Хер")
 
         rand_coin = self.sys_random.randint(0x0, 0x1)
         result = COINS[rand_coin]
         if result != excepted:
-            return await ctx.reply(f"Посмотрим, что тут у нас, {result}, Ты сдохнешь")
+            return await ctx.reply(_(
+                "Посмотрим, что тут у нас, {result}, Ты сдохнешь"
+            ).format(result=result))
 
-        await ctx.reply(f"Посмотрим, что у вас выпало, {result} Поздравляю, вас не трахнут")
+        await ctx.reply(_(
+            "Посмотрим, что у вас выпало, {result} Поздравляю, вас не трахнут"
+        ).format(result=result))
 
     @commands.command(name="bottle", help="you need at sit on bottle")
     async def bottle_flip(self, ctx):
         if self.sys_random.random() > .8:
-            return await ctx.reply("Опа, тебе повеззло")
+            return await ctx.reply("Опа, тебе повезло")
 
         await ctx.reply("Сядешь на бутылку")
