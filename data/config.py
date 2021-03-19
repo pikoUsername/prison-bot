@@ -61,4 +61,5 @@ class Config:
 
     __setitem__ = __delitem__ = lambda *_: None
 
+
 config = Config(Path(__file__).parent / "configs" / "data.toml", lazy=False)
