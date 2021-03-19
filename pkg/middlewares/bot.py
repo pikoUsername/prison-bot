@@ -15,6 +15,8 @@ class Bot(commands.AutoShardedBot, DataMixin, ContextMixin):
     """
     Bot with on_startup, on_shutdown
     and middleware
+
+    * You Should to call _shutdown method for correct shutdown
     """
     # needs for ctx_token
     # if you wont get token from config
@@ -108,7 +110,7 @@ class Bot(commands.AutoShardedBot, DataMixin, ContextMixin):
         log.info(f"Welcome: {user.name if user else 'No User'}")
         log.info(f"Servers: {len(self.guilds)}")
 
-    async def _shutdown(self) -> None:
+    async def shutdown(self) -> None:
         if self._on_shutdown_cbs:
             for cb in self._on_shutdown_cbs:
                 await cb(self)
@@ -140,17 +142,9 @@ class Bot(commands.AutoShardedBot, DataMixin, ContextMixin):
             self.dispatch("on_command_error", exc)
             raise
 
-    async def on_disconnect(self) -> None:
-        """
-        shutdown
-
-        :return:
-        """
-        await self._shutdown()
-
     async def __aenter__(self):
         await self.start(self.ctx_token)
         return self
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
-        await self._shutdown()
+        await self.shutdown()
