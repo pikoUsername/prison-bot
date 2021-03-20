@@ -4,6 +4,7 @@ from iternal.discord.util.paginator import Pages, BotHelpPageSource
 
 __all__ = "HelpMenu", "CustomHelp"
 
+
 class HelpMenu(Pages): pass
 
 

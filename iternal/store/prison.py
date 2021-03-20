@@ -1,3 +1,5 @@
+from typing import Optional
+
 from discord import Guild, Message
 
 from sqlalchemy import CheckConstraint
@@ -35,7 +37,7 @@ class Prison(TimedBaseModel):
         return prison
 
     @staticmethod
-    async def create_from_guild(guild: Guild=None):
+    async def create_from_guild(guild: Optional[Guild] = None):
         if not guild:
             _mes: Message = current_message.get()
             if _mes is None:

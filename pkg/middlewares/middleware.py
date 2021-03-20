@@ -4,7 +4,6 @@ import typing
 from typing import List
 import logging
 
-from discord import Message
 
 log = logging.getLogger(__name__)
 

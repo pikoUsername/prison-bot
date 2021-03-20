@@ -9,7 +9,8 @@ class DateMessage(Message):
     """
     ctx_data = dict()
 
-    __getitem__ = lambda s, k: s.ctx_data[k]
+    def __getitem__(self, key):
+        return self.ctx_data[key]
 
     def __setitem__(self, key, value):
         self.ctx_data[key] = value

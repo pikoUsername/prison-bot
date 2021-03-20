@@ -22,9 +22,24 @@ class User(TimedBaseModel):
     is_active = db.Column(db.Boolean(), server_default=sql.expression.false())
     prisons = db.ForeignKey('prisons', ondelete="NO ACTION", onupdate="NO ACTION")
     respect = db.Column(db.Integer(), default=10)
+    in_prison = db.Column(
+        db.Boolean(),
+        server_default=sql.expression.false()
+    )  # ?
 
     @staticmethod
     async def get_user(uid: int, use_cache: bool = False):
+        """
+        Get user from cache, default uses cache
+        create_from_discord caches result of creating
+        and if use_cache is True, takes from cache
+
+        * Use for just get, not for update, and etc.
+
+        :param uid:
+        :param use_cache:
+        :return:
+        """
         if use_cache:
             mes = current_message.get(None)
             user = await bot.storage.get_data(guild=mes.guild.id, user=uid)

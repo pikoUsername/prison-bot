@@ -1,6 +1,9 @@
 from sqlalchemy import sql
 
 from .db import db, BaseModel, TimedBaseModel
+from .user import User
+
+__all__ = "Inventory", "Item", "GlobalItem", "Effect"
 
 
 class Inventory(BaseModel):
@@ -8,6 +11,13 @@ class Inventory(BaseModel):
 
     user_id = db.ForeignKey('users', ondelete="CASCADE", onupdate="NO ACTION")
     limit = db.Column(db.Integer(), default=20)
+
+    @staticmethod
+    async def get_user(inventory: "Inventory"):
+        result = await User.query.where(
+            User.uid == inventory.user_id
+        ).gino.first()
+        return result
 
 
 class Item(TimedBaseModel):
