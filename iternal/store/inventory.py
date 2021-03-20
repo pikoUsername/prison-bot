@@ -21,9 +21,12 @@ class Inventory(BaseModel):
 
 
 class Item(TimedBaseModel):
+    """
+    Item -> GlobalItem
+    """
     __tablename__ = "items"
 
-    inventory_id = db.Column(db.Integer, db.ForeignKey("inventories.id"), null=False)
+    inventory_id = db.Column(db.Integer, db.ForeignKey("inventories.id"))
     equipped = db.Column(db.Boolean(), server_default=sql.false())
     item_parent = db.ForeignKey("globalitems", ondelete="CASCADE", onupdate="NO ACTION")
 
