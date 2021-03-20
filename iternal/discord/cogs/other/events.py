@@ -1,5 +1,5 @@
 from discord.ext.commands import errors
-from discord import Embed
+from discord import Embed, Message
 from discord.ext import commands
 
 from iternal.discord.loader import _
@@ -56,6 +56,12 @@ class Events(commands.Cog, name="events | Евенты"):
                 "У нас проблема, в тюрьме: {g_name}, и эта проблема: {error}"
             ).format(g_name=ctx.guild.name, error=error)
             await self.send_to_owner(text)
+
+    @commands.Cog.listener()
+    async def on_message(self, message: Message):
+        if message.author.bot:
+            return
+        await self.bot.process_commands(message)
 
     @commands.Cog.listener()
     async def on_command_complete(self, *_):
