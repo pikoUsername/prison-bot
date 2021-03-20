@@ -20,8 +20,6 @@ __pycache__/
 
 # C extensions
 *.so
-*.mo
-*.log
 
 # Distribution / packaging
 .Python
