@@ -1,0 +1,11 @@
+# default config
+[bot]
+TOKEN = ""
+prefix = "prison "
+
+[db]
+database = ""
+host = "localhost"
+port = 5432
+user = ""
+password = ""
