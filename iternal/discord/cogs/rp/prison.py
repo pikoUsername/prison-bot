@@ -3,9 +3,9 @@ import random
 from discord.ext import commands
 
 from pkg.middlewares.utils import ctx_data
+from iternal.discord.loader import _
+from iternal.store.user import User
 
-# stub
-_ = str
 
 class Prison(commands.Cog, name="prison | Тюрьма"):
     """Your home | Твой милый дом"""
@@ -15,20 +15,20 @@ class Prison(commands.Cog, name="prison | Тюрьма"):
         self.bot = bot
         self.sys_rand = random.SystemRandom()
 
-    @commands.command()
-    async def start(self, ctx):
-        _("""
-        "Не попаду я в тюрягу"
-          Said You...
-        """)
-        from .utils.consts import REASONS_RU
+    @commands.command(help=_('"Не попаду я в тюрягу"\n\tСказал Ты...'))
+    async def start(self, ctx: commands.Context):
+        data: dict = ctx_data.get()
 
-        try:
-            data = ctx_data.get()
-        except LookupError:
-            data = None
+        lang = data['guild'].get('language')
 
-        random_reason = self.sys_rand.choice(REASONS_RU)
+        # it s bad code ;(
+        # check out for ru
+        if lang == "ru":
+            from .utils.consts import REASONS_RU as reasons
+        else:
+            from .utils.consts import REASONS_EN as reasons
+
+        random_reason = self.sys_rand.choice(reasons)
         text = _(
             "Вы пасажены на бутылку за: {random_reason}\n"
             "Теперь вам уже не так смешно\n"
@@ -36,3 +36,16 @@ class Prison(commands.Cog, name="prison | Тюрьма"):
             "Твоя задачя сбежать с этой тюрьмы\n"
         ).format(random_reason=random_reason)
         await ctx.reply(text)
+        await User.to_imprison(ctx.author.id)
+
+    @commands.command(name="", help="")
+    async def talk(self, ctx: commands.Context, with_: str):
+        pass
+
+    @commands.command(name="inventory", help=_("Инвентарь"))
+    async def inventory(self, ctx: commands.Context):
+        pass
+
+    @commands.command(name="", help=_("Номер"))
+    async def cd(self, ctx: commands.Context):
+        pass
