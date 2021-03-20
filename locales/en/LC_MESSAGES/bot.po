@@ -1,0 +1,68 @@
+# English translations for PROJECT.
+# Copyright (C) 2021 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2021-03-19 19:50+0600\n"
+"PO-Revision-Date: 2021-03-19 19:51+0600\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.0\n"
+
+#: iternal/discord/cogs/fun/coin.py:18
+msgid "Большой и толстый Хер"
+msgstr ""
+
+#: iternal/discord/cogs/fun/coin.py:23
+msgid "Посмотрим, что тут у нас, {result}, Ты сдохнешь"
+msgstr ""
+
+#: iternal/discord/cogs/fun/coin.py:27
+msgid "Посмотрим, что у вас выпало, {result} Поздравляю, вас не трахнут"
+msgstr ""
+
+#: iternal/discord/cogs/other/events.py:41
+msgid "``Argument Error``, Проебался, что то пропустил в аргментах"
+msgstr ""
+
+#: iternal/discord/cogs/other/events.py:44
+msgid "Доступ запрещен"
+msgstr ""
+
+#: iternal/discord/cogs/other/events.py:45
+msgid "{command}, Только Для Оффицеров"
+msgstr ""
+
+#: iternal/discord/cogs/other/events.py:52
+msgid "Ну что же, у нас проблемки. {error}"
+msgstr ""
+
+#: iternal/discord/cogs/other/events.py:55
+msgid "У нас проблема, в тюрьме: {g_name}, и эта проблема: {error}"
+msgstr ""
+
+#: iternal/discord/cogs/rp/prison.py:20
+msgid ""
+"\n"
+"        \"Не попаду я в тюрягу\"\n"
+"          Said You...\n"
+"        "
+msgstr ""
+
+#: iternal/discord/cogs/rp/prison.py:32
+msgid ""
+"Вы пасажены на бутылку за: {random_reason}\n"
+"Теперь вам уже не так смешно\n"
+"Теперь ты в говне, и тебе уже не так смешно\n"
+"Твоя задачя сбежать с этой тюрьмы\n"
+msgstr ""
+
