@@ -23,10 +23,9 @@ class User(TimedBaseModel):
 
     is_active = db.Column(db.Boolean(), server_default=sql.expression.false())
     prisons = db.ForeignKey('prisons', ondelete="NO ACTION", onupdate="NO ACTION")
-    # on_location = ForeignKey(
-    #     'globallocation.id', ondelete='SET NULL', onupdate='NO ACTION'
-    # )
-    orm.relationship()
+    on_location = ForeignKey(
+        'globallocation', ondelete='SET NULL', onupdate='NO ACTION'
+    )
 
     respect = db.Column(db.Integer(), default=10)
     in_prison = db.Column(
