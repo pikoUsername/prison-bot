@@ -1,5 +1,5 @@
 import discord
-from sqlalchemy import sql, ForeignKey, orm
+from sqlalchemy import sql, ForeignKey
 
 from .db import db, TimedBaseModel
 from iternal.discord.loader import bot
@@ -9,6 +9,10 @@ __all__ = "User",
 
 
 class User(TimedBaseModel):
+    """
+    user model, uses for registers user
+    ID of user created in BaseModel, see BaseModel
+    """
     __tablename__ = "users"
 
     # discord id
@@ -44,7 +48,7 @@ class User(TimedBaseModel):
         * Use for just get, not for update, and etc.
 
         2* If you are using use_cache, then gets
-           User Model object, not a asyncp.Record
+           User Model object, not a asyncpg.Record
 
         :param uid:
         :param use_cache:
@@ -67,7 +71,7 @@ class User(TimedBaseModel):
 
     @staticmethod
     async def create_from_discord(
-            user: discord.User, guild_id: int = None
+        user: discord.User, guild_id: int = None
     ) -> "User":
         """
         Creates user's table from discord user
@@ -86,6 +90,8 @@ class User(TimedBaseModel):
             first_name=user.display_name,
         )
         await new_user.create()
+
+        # caches result
         await bot.storage.set_data(
             user=new_user.uid,
             guild=guild_id,

@@ -3,6 +3,8 @@ from discord import Embed
 
 from .utils import log
 from iternal.discord.loader import proj_root
+from iternal.store.prison import Prison
+from iternal.discord.loader import _
 
 
 class Debugger(commands.Cog, name='pantry | Кладовка'):
@@ -11,7 +13,7 @@ class Debugger(commands.Cog, name='pantry | Кладовка'):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="show_logs", help="shows last logs")
+    @commands.command(name="show_logs", help=_("shows last logs"))
     @commands.is_owner()
     async def show_logs(self, ctx, file: str = None):
         if not file:
@@ -33,6 +35,14 @@ class Debugger(commands.Cog, name='pantry | Кладовка'):
         await ctx.send(embed=e)
 
     @commands.group(name="i18n")
-    @commands.has_permissions(adminstrator=True)
-    async def change_guild_language(__, ctx):
-        await ctx.send("No text...")
+    @commands.has_permissions(administrator=True)
+    async def change_guild_language(self, ctx, language: str):
+        try:
+            await Prison.change_lang(language, ctx.guild.id)
+        except TypeError as ex:
+            await ctx.send(embed=Embed(
+                title=_("Выбран неправильный язык"), description=f"```{str(ex)}```"
+            ))
+            return
+        else:
+            await ctx.send(_("Успешно изменен язык на {language}").format(language))

@@ -59,6 +59,9 @@ class Bot(commands.AutoShardedBot, DataMixin, ContextMixin):
         return getattr(self, '_me')
 
     async def process_commands(self, message: Message):
+        if message.author.bot:
+            return
+
         data = {}
         ctx_data.set(data)
 

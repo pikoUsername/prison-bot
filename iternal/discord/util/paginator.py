@@ -6,7 +6,7 @@ from discord import Embed
 from discord.ext import menus
 
 
-# from R.DANNY
+# from R.DANNY pls dont hurt me
 class BotHelpPageSource(menus.ListPageSource):
     """
     Uses in help.py, for pagination

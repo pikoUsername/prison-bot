@@ -8,6 +8,14 @@ from sqlalchemy.sql import expression
 from pkg.middlewares.utils import current_message
 from .db import db, TimedBaseModel
 
+__all__ = "Prison",
+
+
+def _check_lang(lang: str):
+    if lang in ('ru', 'en'):
+        return True
+    return
+
 
 class Prison(TimedBaseModel):
     """
@@ -57,3 +65,14 @@ class Prison(TimedBaseModel):
         new_prison.name = _guild.name
 
         return new_prison
+
+    @staticmethod
+    async def change_lang(lang: str, gid: int):
+        if _check_lang(lang):
+            langs = 'ru', 'en'
+            raise TypeError(f"Not available language, language must be in {langs}")
+
+        sql = f'UPDATE {Prison.__tablename__} SET language = $1 WHERE gid = $2;'
+        async with db.acquire() as conn:
+            async with conn.transaction():
+                await conn.first(sql, lang, gid)

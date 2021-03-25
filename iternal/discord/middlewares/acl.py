@@ -7,9 +7,7 @@ from iternal.store.prison import Prison
 
 class Acl(BaseMiddleware):
     async def setup_chat(self, message: Message, data: dict) -> None:
-        user_id = message.author.id
-
-        _user = await User.get_user(user_id, False)
+        _user = await User.get_user(message.author.id, False)
         if not _user:
             await User.create_from_discord(message.author, message.guild.id)
 

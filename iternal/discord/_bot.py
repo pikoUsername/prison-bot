@@ -32,8 +32,10 @@ class PrisonRpBot(MiddlewareBot):
         from . import cogs, middlewares
         from ..store import db
 
+        # taking token from config
         token = self.config['bot']['TOKEN']
 
+        # setuping database functions
         db.setup(self)
         cogs.setup(self)
         middlewares.setup(self)

@@ -6,7 +6,6 @@ from pkg.userstorage.memory import MemoryStorage
 from ._bot import PrisonRpBot
 from .middlewares.i18n import I18nMiddleware
 
-
 __all__ = "bot", 'i18n', 'proj_root', 'prefix', '_'
 
 # entry point for application is cli/manage.py or cli/__main__.py
