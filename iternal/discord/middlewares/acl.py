@@ -18,5 +18,5 @@ class Acl(BaseMiddleware):
         data['user'] = _user
         data['prison'] = data['guild'] = _prison
 
-    async def on_pre_process_message(self, message: Message, data: dict):
+    async def on_post_process_message(self, message: Message, data: dict):
         await self.setup_chat(message, data)

@@ -1,7 +1,11 @@
 import datetime
+from typing import TypeVar, List, Union
 from contextlib import suppress
+import warnings
 
+import asyncpg
 from sqlalchemy import sql
+import sqlalchemy as sa
 from gino import Gino, GinoEngine, UninitializedError
 from loguru import logger
 
@@ -9,6 +13,9 @@ from loguru import logger
 from pkg.middlewares import MiddlewareBot as Bot
 from data import config
 
+
+# query result
+QR = TypeVar("QR")
 
 db = Gino()
 
@@ -18,6 +25,56 @@ class BaseModel(db.Model):
     query: sql.Select
 
     id = db.Column(db.Integer(), db.Sequence("user_id_seq"), index=True, primary_key=True)
+
+    def __str__(self):
+        model = self.__class__.__name__
+        table: sa.Table = sa.inspect(self.__class__)
+        primary_key_columns: List[sa.Column] = table.primary_key.columns
+        values = {
+            column.name: getattr(self, self._column_name_map[column.name])
+            for column in primary_key_columns
+        }
+        values_str = " ".join(f"{name}={value!r}" for name, value in values.items())
+        return f"<{model} {values_str}>"
+
+    @staticmethod
+    async def request(
+        query: str,
+        *params,
+        fetch: bool = 0,
+        execute: bool = 0,
+        model=None,
+        **kwargs,
+    ) -> Union[QR, List[QR]]:
+        self = BaseModel
+        result = await self._request(query, params, fetch, execute, **kwargs)
+
+        if model is not None and not execute:
+            return model(*result)
+
+        return result
+
+    @staticmethod
+    async def _request(query, params, fetch, execute, **kwargs):
+        """
+        request to database, and etc.
+        """
+        if execute and fetch:
+            warnings.warn("Fetch and execute, is True, "
+                          "and it s have not got any efficient.")
+
+        if not execute and not fetch:
+            warnings.warn("Fetch and execute is False, it s does not have any effect")
+
+        async with db.bind.acquire() as conn:
+            conn: asyncpg.Connection
+            async with conn.transaction():
+                result = None
+                if fetch:
+                    result = await conn.fetchrow(query, *params, **kwargs)
+                if execute:
+                    await conn.execute(query, *params, **kwargs)
+                return result
 
 
 class TimedBaseModel(BaseModel):

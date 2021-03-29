@@ -3,7 +3,7 @@ from loguru import logger
 from .rp import Prison
 from .other import Events
 from .fun import Coin
-from .admin import Debugger
+from .admin import Debugger, Owner
 
 __all__ = "setup"
 
@@ -15,3 +15,4 @@ def setup(bot):
     bot.add_cog(Events(bot))
     bot.add_cog(Coin(bot))
     bot.add_cog(Debugger(bot))
+    bot.add_cog(Owner(bot))

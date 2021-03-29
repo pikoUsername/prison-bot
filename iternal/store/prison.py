@@ -73,6 +73,4 @@ class Prison(TimedBaseModel):
             raise TypeError(f"Not available language, language must be in {langs}")
 
         sql = f'UPDATE {Prison.__tablename__} SET language = $1 WHERE gid = $2;'
-        async with db.acquire() as conn:
-            async with conn.transaction():
-                await conn.first(sql, lang, gid)
+        await Prison.request(sql, lang, gid, execute=True)

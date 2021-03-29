@@ -1,7 +1,5 @@
 from pkg.middlewares import MiddlewareBot
 
-from .util import CustomHelp
-
 
 class PrisonRpBot(MiddlewareBot):
     """
@@ -17,6 +15,8 @@ class PrisonRpBot(MiddlewareBot):
     __slots__ = "config",
 
     def __init__(self, config, *args, **kwargs):
+        from .util import CustomHelp
+
         super(PrisonRpBot, self).__init__(*args, **kwargs)
         self.config = config
         self.help_command = CustomHelp()
