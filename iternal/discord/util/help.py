@@ -43,7 +43,7 @@ class GroupHelpPageSource(menus.ListPageSource):
                     )
             )
 
-        embed.set_footer(text=_(f'Юзай "{self.prefix}help <Действие>" for more info on a command.'))
+        embed.set_footer(text=_('Юзай "{prefix}help <Действие>" for more info on a command.').format(prefix=self.prefix))
         return embed
 
 

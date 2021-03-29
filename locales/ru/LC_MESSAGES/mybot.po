@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-03-19 19:50+0600\n"
-"PO-Revision-Date: 2021-03-19 19:51+0600\n"
+"POT-Creation-Date: 2021-03-29 16:19+0600\n"
+"PO-Revision-Date: 2021-03-29 16:20+0600\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
 "Language-Team: ru <LL@li.org>\n"
@@ -18,6 +18,22 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.0\n"
+
+#: iternal/discord/cogs/admin/debug.py:16
+msgid "shows last logs"
+msgstr ""
+
+#: iternal/discord/cogs/admin/debug.py:44
+msgid "Выбран неправильный язык"
+msgstr ""
+
+#: iternal/discord/cogs/admin/debug.py:48
+msgid "Успешно изменен язык на {language}"
+msgstr ""
+
+#: iternal/discord/cogs/admin/owner.py:13
+msgid "Досуг для оффицеров"
+msgstr ""
 
 #: iternal/discord/cogs/fun/coin.py:18
 msgid "Большой и толстый Хер"
@@ -51,12 +67,10 @@ msgstr ""
 msgid "У нас проблема, в тюрьме: {g_name}, и эта проблема: {error}"
 msgstr ""
 
-#: iternal/discord/cogs/rp/prison.py:20
+#: iternal/discord/cogs/rp/prison.py:18
 msgid ""
-"\n"
-"        \"Не попаду я в тюрягу\"\n"
-"          Said You...\n"
-"        "
+"\"Не попаду я в тюрягу\"\n"
+"\tСказал Ты..."
 msgstr ""
 
 #: iternal/discord/cogs/rp/prison.py:32
@@ -65,5 +79,46 @@ msgid ""
 "Теперь вам уже не так смешно\n"
 "Теперь ты в говне, и тебе уже не так смешно\n"
 "Твоя задачя сбежать с этой тюрьмы\n"
+msgstr ""
+
+#: iternal/discord/cogs/rp/prison.py:45
+msgid "Инвентарь"
+msgstr ""
+
+#: iternal/discord/cogs/rp/prison.py:49
+msgid "Номер"
+msgstr ""
+
+#: iternal/discord/util/help.py:25
+msgid "{qualified_name} Комманд"
+msgstr ""
+
+#: iternal/discord/util/help.py:37
+msgid "Бутылка {current_page}/{maximum} ({entries}) Всего)"
+msgstr ""
+
+#: iternal/discord/util/help.py:46
+msgid "Юзай \"{prefix}help <Действие>\" for more info on a command."
+msgstr ""
+
+#: iternal/discord/util/paginator.py:26
+msgid "Хуй те, а не помощь\n"
+msgstr ""
+
+#: iternal/discord/util/paginator.py:28
+#, python-format
+msgid "+%d нет"
+msgstr ""
+
+#: iternal/discord/util/paginator.py:58
+msgid "Page {current_page}/{maximum}"
+msgstr ""
+
+#: iternal/discord/util/paginator.py:81
+msgid "Для чего это кнопкочка?"
+msgstr ""
+
+#: iternal/discord/util/paginator.py:82
+msgid "Ты на странице - {current_page}."
 msgstr ""
 
