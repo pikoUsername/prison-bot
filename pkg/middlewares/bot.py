@@ -1,5 +1,5 @@
 import logging
-from _contextvars import ContextVar
+from contextvars import ContextVar
 
 from discord import ClientUser, Message
 from discord.ext import commands

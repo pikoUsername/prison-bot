@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import typing
 from typing import List
 import logging
@@ -15,7 +13,7 @@ class MiddlewareManager:
         self.bot = bot
         self.applications: List[BaseMiddleware] = []
 
-    def setup(self, middleware: BaseMiddleware) -> BaseMiddleware:
+    def setup(self, middleware: 'BaseMiddleware') -> "BaseMiddleware":
         assert isinstance(middleware, BaseMiddleware)
         if middleware.is_configured():
             raise ValueError('That middleware is already used!')

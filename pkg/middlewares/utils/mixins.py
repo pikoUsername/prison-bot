@@ -24,15 +24,20 @@ class DataMixin:
 
 
 class ContextMixin:
-    def __init_subclass__(cls, **kwargs):
+    def __init_subclass__(cls):
         cls.__context_instance = ContextVar(f"context_instance_{cls.__name__}")
         return cls
 
     @classmethod
     def get_current(cls: Type[T], no_err: bool = True):
-        if no_err:
-            cls.__context_instance.get(None)
-        cls.__context_instance.get()
+        try:
+            result = cls.__context_instance.get()
+        except LookupError:
+            if no_err:
+                return
+            raise
+        else:
+            return result
 
     @classmethod
     def set_current(cls: Type[T], value: T):
