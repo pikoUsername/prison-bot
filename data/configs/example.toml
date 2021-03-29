@@ -1,0 +1,10 @@
+[bot]
+TOKEN = ""  # production token, bruh
+prefix = "prison "
+
+[db]
+database = ""
+host = "localhost"
+port = 5432
+user = ""
+password = ""
