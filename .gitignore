@@ -11,7 +11,7 @@
 /__pycache__/
 __pycache__/*
 #
-data/configs/data.toml
+data/configs/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
