@@ -24,7 +24,7 @@ class BaseModel(db.Model):
     __abstract__ = 1  # type: bool
     query: sql.Select
 
-    id = db.Column(db.Integer(), db.Sequence("user_id_seq"), index=True, primary_key=True)
+    id = db.Column(db.Integer(), unique=True, index=True, primary_key=True)
 
     def __str__(self):
         model = self.__class__.__name__

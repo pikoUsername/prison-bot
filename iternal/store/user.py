@@ -1,5 +1,6 @@
 import discord
 from sqlalchemy import sql, ForeignKey
+import sqlalchemy as sa
 
 from .db import db, TimedBaseModel
 from iternal.discord.loader import bot
@@ -37,6 +38,12 @@ class User(TimedBaseModel):
         server_default=sql.expression.false()
     )  # ?
     reason = db.Column(db.String(53), default="No")
+    inventory_id = db.Column(
+        db.Integer, db.ForeignKey("inventories.id",
+                                  ondelete="NO ACTION",
+                                  onupdate="NO ACTION",
+                                  use_alter=True),
+    )
 
     @staticmethod
     async def get_user(uid: int, use_cache: bool = False):
