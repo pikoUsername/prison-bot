@@ -1,10 +1,27 @@
 import random
+from typing import Any
 
+import asyncpg
 from discord.ext import commands
 
 from pkg.middlewares.utils import ctx_data
 from iternal.discord.loader import _
 from iternal.store.user import User
+
+
+class ItemConvertor(commands.Converter):
+    async def convert(self, ctx: commands.Context, argument: Any) -> None:
+        _data: dict = ctx_data.get()
+        try:
+            user: asyncpg.Record = _data['user']
+        except KeyError:
+            await ctx.send(_(
+                "Ух, как вот так можно?\n"
+                "Сломать то что не сломать\n"
+            ))
+            return
+        inventory = user.get('inventories')
+        # TODO: use ORM instead of sql
 
 
 class Prison(commands.Cog, name="prison | Тюрьма"):
@@ -14,6 +31,11 @@ class Prison(commands.Cog, name="prison | Тюрьма"):
     def __init__(self, bot):
         self.bot = bot
         self.sys_rand = random.SystemRandom()
+
+    async def cog_check(self, ctx: commands.Context) -> bool:
+        if not ctx.guild:
+            raise commands.NoPrivateMessage
+        return True
 
     @commands.command(help=_('"Не попаду я в тюрягу"\n\tСказал Ты...'))
     async def start(self, ctx: commands.Context):
@@ -43,9 +65,23 @@ class Prison(commands.Cog, name="prison | Тюрьма"):
         pass
 
     @commands.command(name="inventory", help=_("Инвентарь"))
-    async def inventory(self, ctx: commands.Context):
+    async def prisoner_inventory(self, ctx: commands.Context):
         pass
 
-    @commands.command(name="", help=_("Номер"))
-    async def cd(self, ctx: commands.Context):
+    @commands.command(name="card", aliases=["cd"], help=_("Номер"))
+    async def prisoner_cd(self, ctx: commands.Context) -> None:
+        pass
+
+    @commands.command(name="go")
+    async def prisoner_go(self, ctx: commands.Context) -> None:
+        pass
+
+    @commands.group(name="craft")
+    async def prisoner_craft(self, ctx: commands.Context) -> None:
+        if ctx.invoked_subcommand is None:
+            _t = ctx.send_help(ctx.command)
+            await _t
+
+    @prisoner_craft.command(aliases=["item"], help=_("\0"))
+    async def make_craft(self, ctx: commands.Context, item: ItemConvertor):
         pass
