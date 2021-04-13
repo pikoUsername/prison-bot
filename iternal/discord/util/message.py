@@ -1,13 +1,13 @@
-from discord import Message
+_message = __import__("discord").Message
 
 
-class DateMessage(Message):
+class DateMessage(_message):
     """
     Stores Message data
 
     ctx_data uses in handlers/commands for get data
     """
-    ctx_data = dict()
+    ctx_data = {}
 
     def __getitem__(self, key):
         return self.ctx_data[key]
@@ -17,3 +17,7 @@ class DateMessage(Message):
 
     def __delitem__(self, key):
         del self.ctx_data[key]
+
+
+# for no import out
+del _message

@@ -82,7 +82,7 @@ class Bot(commands.AutoShardedBot, DataMixin, ContextMixin):
             finally:
                 current_message.reset(ctx_token)
         except CancelHandler:
-            pass
+            return
         finally:
             # after
             await self.middleware.trigger("post_process_message", (message, data))

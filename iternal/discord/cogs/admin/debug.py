@@ -1,19 +1,23 @@
-from discord.ext import commands
-from discord import Embed
+from discord.ext import commands as commands
+from discord import Embed as Embed
 
-from .utils import log
-from iternal.discord.loader import proj_root
-from iternal.store.prison import Prison
-from iternal.discord.loader import _
+from .utils import log as log
+from iternal.discord.loader import _ as __, proj_root as proj_root
+from iternal.store.prison import Prison as Prison
 
 
 class Debugger(commands.Cog, name='pantry | Кладовка'):
+    """
+    Использвать для того что бы не копатся в говно коде.
+
+    For not change shit code.
+    """
     __slots__ = "bot",
 
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="show_logs", help=_("shows last logs"))
+    @commands.command(name="show_logs", help=__("shows last logs"))
     @commands.is_owner()
     async def show_logs(self, ctx, file: str = None):
         if not file:
@@ -41,8 +45,8 @@ class Debugger(commands.Cog, name='pantry | Кладовка'):
             await Prison.change_lang(language, ctx.guild.id)
         except TypeError as ex:
             await ctx.send(embed=Embed(
-                title=_("Выбран неправильный язык"), description=f"```{str(ex)}```"
+                title=__("Выбран неправильный язык"), description=f"```{str(ex)}```"
             ))
             return
         else:
-            await ctx.send(_("Успешно изменен язык на {language}").format(language))
+            await ctx.send(__("Успешно изменен язык на {language}").format(language))

@@ -1,11 +1,13 @@
-import asyncio
-import discord
-from contextlib import suppress
+import asyncio as asyncio
+import discord as discord
+from contextlib import suppress as suppress
 
-from discord import Embed
-from discord.ext import menus
+from discord.ext import menus as menus
 
-from iternal.discord.loader import _
+from iternal.discord.loader import _ as __
+
+
+Embed = discord.Embed
 
 
 # from R.DANNY pls dont hurt me
@@ -23,9 +25,9 @@ class BotHelpPageSource(menus.ListPageSource):
 
     # noinspection PyMethodMayBeStatic
     def format_commands(self, cog, commands):
-        short_doc = cog.description.split('\n', 1)[0] + '\n' if cog.description else _('Хуй те, а не помощь\n')
+        short_doc = cog.description.split('\n', 1)[0] + '\n' if cog.description else __('Хуй те, а не помощь\n')
         current_count = len(short_doc)
-        ending_note = _('+%d нет')
+        ending_note = __('+%d нет')
         ending_length = len(ending_note)
         page = []
         for command in commands:
@@ -55,7 +57,7 @@ class BotHelpPageSource(menus.ListPageSource):
                 value = self.format_commands(cog, commands)
                 embed.add_field(name=cog.qualified_name, value=value, inline=1)
         maximum = self.get_max_pages()
-        embed.set_footer(text=_('Page {current_page}/{maximum}').format(
+        embed.set_footer(text=__('Page {current_page}/{maximum}').format(
             current_page=menu.current_page + 1, maximum=maximum))
         return embed
 
@@ -72,14 +74,14 @@ class Pages(menus.MenuPages):
             else: await self.message.delete()
 
     @menus.button('\N{INFORMATION SOURCE}\ufe0f', position=menus.Last(3))
-    async def show_help(self, __):
+    async def show_help(self, _):
         """shows this message"""
         embed = Embed(title='Помощь от Батиной книги')
         messages = []
         for emoji, button in self.buttons.items():
             messages.append(f'{emoji}: {button.action.__doc__}')
-        embed.add_field(name=_('Для чего это кнопкочка?'), value='\n'.join(messages), inline=0)
-        embed.set_footer(text=_('Ты на странице - {current_page}.').format(current_page=self.current_page + 1))
+        embed.add_field(name=__('Для чего это кнопкочка?'), value='\n'.join(messages), inline=0)
+        embed.set_footer(text=__('Ты на странице - {current_page}.').format(current_page=self.current_page + 1))
         await self.message.edit(content=None, embed=embed)
 
         async def go_back_to_current_page():

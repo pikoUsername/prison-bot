@@ -1,27 +1,17 @@
-import random
-from typing import Any
+from typing import Any, Optional
 
-import asyncpg
-from discord.ext import commands
+from discord.ext import commands as commands
 
-from pkg.middlewares.utils import ctx_data
-from iternal.discord.loader import _
-from iternal.store.user import User
+from pkg.middlewares.utils import ctx_data as ctx_data
+from iternal.discord.loader import _ as __
+from iternal.store.user import User as User
+from iternal.store.inventory import GlobalItem as GlobalItem
 
 
 class ItemConvertor(commands.Converter):
-    async def convert(self, ctx: commands.Context, argument: Any) -> None:
-        _data: dict = ctx_data.get()
-        try:
-            user: asyncpg.Record = _data['user']
-        except KeyError:
-            await ctx.send(_(
-                "Ух, как вот так можно?\n"
-                "Сломать то что не сломать\n"
-            ))
-            return
-        inventory = user.get('inventories')
-        # TODO: use ORM instead of sql
+    async def convert(self, ctx: commands.Context, argument: Any) -> Optional[GlobalItem]:
+        item = await GlobalItem.query.where(GlobalItem.title == argument).gino.first()
+        return item if item else None
 
 
 class Prison(commands.Cog, name="prison | Тюрьма"):
@@ -29,15 +19,17 @@ class Prison(commands.Cog, name="prison | Тюрьма"):
     __slots__ = "bot", "sys_rand"
 
     def __init__(self, bot):
+        import random as rand
+
         self.bot = bot
-        self.sys_rand = random.SystemRandom()
+        self.sys_rand = rand.SystemRandom()
 
     async def cog_check(self, ctx: commands.Context) -> bool:
         if not ctx.guild:
             raise commands.NoPrivateMessage
         return True
 
-    @commands.command(help=_('"Не попаду я в тюрягу"\n\tСказал Ты...'))
+    @commands.command(help=__('"Не попаду я в тюрягу"\n\tСказал Ты...'))
     async def start(self, ctx: commands.Context):
         data: dict = ctx_data.get()
 
@@ -51,7 +43,7 @@ class Prison(commands.Cog, name="prison | Тюрьма"):
             from .utils.consts import REASONS_EN as reasons
 
         random_reason = self.sys_rand.choice(reasons)
-        text = _(
+        text = __(
             "Вы пасажены на бутылку за: {random_reason}\n"
             "Теперь вам уже не так смешно\n"
             "Теперь ты в говне, и тебе уже не так смешно\n"
@@ -64,11 +56,11 @@ class Prison(commands.Cog, name="prison | Тюрьма"):
     async def talk(self, ctx: commands.Context, with_: str):
         pass
 
-    @commands.command(name="inventory", help=_("Инвентарь"))
+    @commands.command(name="inventory", help=__("Инвентарь"))
     async def prisoner_inventory(self, ctx: commands.Context):
         pass
 
-    @commands.command(name="card", aliases=["cd"], help=_("Номер"))
+    @commands.command(name="card", aliases=["cd"], help=__("Номер"))
     async def prisoner_cd(self, ctx: commands.Context) -> None:
         pass
 
@@ -82,6 +74,6 @@ class Prison(commands.Cog, name="prison | Тюрьма"):
             _t = ctx.send_help(ctx.command)
             await _t
 
-    @prisoner_craft.command(aliases=["item"], help=_("\0"))
+    @prisoner_craft.command(aliases=["item"], help=__("\0"))
     async def make_craft(self, ctx: commands.Context, item: ItemConvertor):
         pass

@@ -1,16 +1,15 @@
-from discord.ext import commands
+from discord.ext import commands as commands
 
-from iternal.store.prison import Prison
-from iternal.discord.loader import _
+from iternal.store.prison import Prison as Prison
+from iternal.discord.loader import _ as __
 
 
 class Owner(commands.Cog, name="owner | Владелец"):
-
     __slots__ = "bot",
 
     def __init__(self, bot):
         self.bot = bot
-        setattr(self, '__doc__', _("Досуг для оффицеров"))
+        setattr(self, '__doc__', __("Досуг для оффицеров"))
 
     @commands.command(name="i18n_prison")
     @commands.is_owner()

@@ -1,8 +1,8 @@
-from loguru import logger
+from loguru import logger as logger
 
-from .rp import Prison
-from .other import Events
-from .fun import Coin
+from .rp import Prison as Prison
+from .other import Events as Events
+from .fun import Coin as Coin
 from .admin import Debugger, Owner
 
 __all__ = "setup"

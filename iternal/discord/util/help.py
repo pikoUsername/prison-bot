@@ -4,10 +4,10 @@ who cares? About it, so much
 I guess R.Danny licinse not so strict
 """
 import discord
-from discord.ext import menus
+from discord.ext import menus as menus
 from discord.ext.commands import HelpCommand, BucketType, Cooldown, Command
 from iternal.discord.util.paginator import Pages, BotHelpPageSource
-from iternal.discord.loader import _
+from iternal.discord.loader import _ as _
 
 __all__ = "HelpMenu", "CustomHelp"
 

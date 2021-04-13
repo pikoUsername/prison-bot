@@ -1,6 +1,5 @@
 import discord
 from sqlalchemy import sql, ForeignKey
-import sqlalchemy as sa
 
 from .db import db, TimedBaseModel
 from iternal.discord.loader import bot

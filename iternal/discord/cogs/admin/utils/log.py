@@ -1,5 +1,5 @@
 # https://github.com/pikoUsername/my_template_aiogram/blob/template/app/handlers/admin/debug/logs.py
-import os
+import os as os
 from pathlib import Path
 from contextlib import suppress
 from typing import Iterator
